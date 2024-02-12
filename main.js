@@ -38,6 +38,16 @@ fetch("data/police_station.geojson")
   })
   .then((data) => {
     police_station = L.geoJSON(data, {
+      pointToLayer: (feature, latlng) => {
+        return L.circleMarker(latlng, {
+          radius: 8,
+          fillColor: "blue",
+          color: "#000",
+          weight: 1,
+          opacity: 1,
+          fillOpacity: 0.8,
+        });
+      },
       onEachFeature: (feature, layer) => {
         layer.bindPopup(feature.properties.name);
       },
@@ -45,14 +55,18 @@ fetch("data/police_station.geojson")
   });
 
 L.control
-  .Legend({
+  .legend({
     position: "bottomleft",
     legends: [
       {
         label: "Police Station",
         type: "circle",
+        radius: 8,
+        color: "#000",
+        fillColor: "blue",
+        fillOpacity: 0.8,
+        weight: 1,
         layers: [police_station],
-        // url: "marker/marker-red.png",
       },
     ],
   })
